@@ -4,25 +4,74 @@
 {% block page_content %}
 <div class="container mt-5">
     <h1>Dashboard</h1>
-    <p>Welcome to your dashboard!</p>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">Dispositivos conectados</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+    <div class="row" style="margin-top:35px;">
+        <div class="col d-flex justify-content-center">
+            <div class="col-md-3">
+                <div class="card mb-2" style="margin-right:15px;">
+                    <div class="card-body">
+                        <h5 class="card-title">Conected Devices</h5>
+                        <p class="card-text">5</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">Card Title 2</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+            <div class="col-md-3">
+                <div class="card mb-2" style="margin-right:15px;">
+                    <div class="card-body">
+                        <h5 class="card-title">SNMP Community</h5>
+                        <p class="card-text">UTEZ</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card mb-2" style="margin-right:15px;">
+                    <div class="card-body">
+                        <h5 class="card-title">SNMP Version</h5>
+                        <p class="card-text">2c</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card mb-2" style="margin-right:15px;">
+                    <div class="card-body">
+                        <h5 class="car d-title">Conected Devices</h5>
+                        <p class="card-text">5</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    
+</div>
+<div class="container mt-5">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">First</th>
+                <th scope="col">Last</th>
+                <th scope="col">Handle</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>John</td>
+                <td>Doe</td>
+                <td>@social</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 {% endblock %}
