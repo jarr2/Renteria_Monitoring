@@ -14,7 +14,6 @@ def get_diveces_info():
 
 @app.route('/', methods=['GET'])
 def index():
-    
     return render_template('index.html')
 
 @app.route('/login', methods=['GET','POST'])
@@ -23,9 +22,14 @@ def login():
         #return render_template('./Model/Module/Login/Views/login.html')
         return render_template('login.html')
 
+@app.route('/dashboard', methods=['GET','POST'])
+def dashboard():
+    if request.method == 'GET':
+        return render_template('dashboard.html')
+
 @app.route('/device-info', methods=['GET'])
 def device_info():
     return jsonify(get_diveces_info())
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0",port=5000,debug=True)
+    app.run(port=5000,debug=True)
