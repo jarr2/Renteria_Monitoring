@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}My devices{% endblock %}
+
+{% block page_content %}
+
+<div class="container mt-5">
+    <h1>My configured devices</h1>
+    <div class="d-flex justify-content-end">
+        <button  style="border: 0;">
+            <a href="/add_device" class="btn w-100 btn-success">Add new device</a>
+        </button>
+        </div>
+    <table class="table table-hover">
+        
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Alias</th>
+                <th scope="col">Hostname</th>
+                <th scope="col">IP</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Central Router</td>
+                <td>R-Central</td>
+                <td>172.16.10.1</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>Branch Router</td>
+                <td>R-Branch</td>
+                <td>10.10.10.1</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>West Router</td>
+                <td>W-Router</td>
+                <td>192.168.10.1</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}

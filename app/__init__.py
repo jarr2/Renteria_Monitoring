@@ -27,6 +27,12 @@ def dashboard():
     if request.method == 'GET':
         return render_template('dashboard.html')
 
+@app.route('/devices', methods=['GET','POST'])
+def devices():
+    if request.method == 'GET':
+        return render_template('devices.html')
+
+
 @app.route('/device-info', methods=['GET'])
 def device_info():
     return jsonify(get_diveces_info())
