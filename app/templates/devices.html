@@ -6,18 +6,19 @@
 <div class="container mt-5">
     <h1>My configured devices</h1>
     <div class="d-flex justify-content-end">
-        <button  style="border: 0;">
+        <!--<button  style="border: 0;"> -
             <a href="/add_device" class="btn w-100 btn-success">Add new device</a>
-        </button>
+        </button> -->
+        <button class="btn btn-success" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Add new device</button>
         </div>
     <table class="table table-hover">
-        
         <thead>
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Alias</th>
                 <th scope="col">Hostname</th>
                 <th scope="col">IP</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -26,20 +27,79 @@
                 <td>Central Router</td>
                 <td>R-Central</td>
                 <td>172.16.10.1</td>
+                <td class="d-flex justify-content-end">
+                    <button class="btn btn-primary btn-sm" style="margin-right: 5px;"data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Edit</button>
+                    <button class="btn btn-danger btn-sm" style="margin-right: 5px;">Delete</button>
+                    <button class="btn btn-info btn-sm" style="margin-right: 5px;">Configure via SSH</button>
+                </td>
             </tr>
             <tr>
                 <th scope="row">2</th>
                 <td>Branch Router</td>
                 <td>R-Branch</td>
                 <td>10.10.10.1</td>
+                <td class="d-flex justify-content-end">
+                    <button class="btn btn-primary btn-sm" style="margin-right: 5px;" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Edit</button>
+                    <button class="btn btn-danger btn-sm" style="margin-right: 5px;">Delete</button>
+                    <button class="btn btn-info btn-sm" style="margin-right: 5px;">Configure via SSH</button>
+                </td>
             </tr>
             <tr>
                 <th scope="row">3</th>
                 <td>West Router</td>
                 <td>W-Router</td>
                 <td>192.168.10.1</td>
+                <td class="d-flex justify-content-end">
+                    <button class="btn btn-primary btn-sm" style="margin-right: 5px;"data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Edit</button>
+                    <button class="btn btn-danger btn-sm" style="margin-right: 5px;">Delete</button>
+                    <button class="btn btn-info btn-sm" style="margin-right: 5px;">Configure via SSH</button>
+                </td>
             </tr>
         </tbody>
     </table>
 </div>
+
+<!-- Full screen modal -->
+<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Enter new device information</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+            <div class="mb-3">
+            <label for="deviceAlias" class="form-label">Device Alias</label>
+            <input type="text" class="form-control" id="deviceAlias" placeholder="Enter device alias" required>
+            </div>
+            <div class="mb-3">
+            <label for="deviceHostname" class="form-label">Device Hostname</label>
+            <input type="text" class="form-control" id="deviceHostname" placeholder="Enter device hostname" required>
+            </div>
+            <div class="mb-3">
+            <label for="deviceIP" class="form-label">Device IP</label>
+            <input type="text" class="form-control" id="deviceIP" placeholder="Enter device IP" required>
+            </div>
+            <div class="d-flex justify-content-between">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+{% endblock %}
+{% block customJS %}
+<script>
+    const myModal = new bootstrap.Modal(document.getElementById('myModal'), options)
+    // or
+    //const myModalAlternative = new bootstrap.Modal('#myModal', options)
+</script>
 {% endblock %}
