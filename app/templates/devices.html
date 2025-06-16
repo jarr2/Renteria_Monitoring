@@ -39,9 +39,9 @@
                 <td>R-Branch</td>
                 <td>10.10.10.1</td>
                 <td class="d-flex justify-content-end">
-                    <button class="btn btn-primary btn-sm" style="margin-right: 5px;" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Edit</button>
-                    <button class="btn btn-danger btn-sm" style="margin-right: 5px;">Delete</button>
-                    <button class="btn btn-info btn-sm" style="margin-right: 5px;">Configure via SSH</button>
+                    <a class="btn btn-primary btn-sm" style="margin-right: 5px;" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Edit</a>
+                    <a class="btn btn-danger btn-sm" style="margin-right: 5px;">Delete</a>
+                    <a class="btn btn-info btn-sm" style="margin-right: 5px;" href="/devices/configure">Configure via SSH</a>
                 </td>
             </tr>
             <tr>
@@ -79,11 +79,19 @@
             </div>
             <div class="mb-3">
             <label for="deviceIP" class="form-label">Device IP</label>
-            <input type="text" class="form-control" id="deviceIP" placeholder="Enter device IP" required>
+            <div class="d-flex align-items-center">
+                <input type="number" class="form-control text-center" maxlength="3" min="0" max="255" style="width:60px;" id="ip1" required>
+                <span class="mx-1">.</span>
+                <input type="number" class="form-control text-center" maxlength="3" min="0" max="255" style="width:60px;" id="ip2" required>
+                <span class="mx-1">.</span>
+                <input type="number" class="form-control text-center" maxlength="3" min="0" max="255" style="width:60px;" id="ip3" required>
+                <span class="mx-1">.</span>
+                <input type="number" class="form-control text-center" maxlength="3" min="0" max="255" style="width:60px;" id="ip4" required>
+            </div>
             </div>
             <div class="d-flex justify-content-between">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Add new device</button>
             </div>
         </form>
       </div>
@@ -101,5 +109,16 @@
     const myModal = new bootstrap.Modal(document.getElementById('myModal'), options)
     // or
     //const myModalAlternative = new bootstrap.Modal('#myModal', options)
+    // Solo permite números en los campos de IP
+    ['ip1','ip2','ip3','ip4'].forEach(id => {
+        document.getElementById(id).addEventListener('input', function(e) {
+            // Elimina caracteres no numéricos y limita a 3 dígitos
+            this.value = this.value.replace(/[^0-9]/g, '').slice(0,3);
+            // Si el valor es mayor a 255, lo ajusta a 255
+            if (parseInt(this.value) > 255) {
+                this.value = '255';
+            }
+        });
+    });
 </script>
 {% endblock %}
