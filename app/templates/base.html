@@ -38,6 +38,30 @@
             </div>
         </div>
     </nav>
+    {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+      <div class="alert-container">
+        {% for category, message in messages %}
+          {% if category == 'error' %}
+          <div class="alert alert-danger alert-dismissable d-flex justify-content-between align-items-center fade show" role="alert">
+              <span>{{ message }}</span>
+              <button type="button" class="btn-close align-self-end" aria-label="Close" data-bs-dismiss="alert"></button>
+          </div>
+          {% elif category == 'success' %}
+          <div class="alert alert-success alert-dismissable d-flex justify-content-between align-items-center fade show" role="alert">
+              <span>{{ message }}</span>
+             <button type="button" class="btn-close align-self-end" aria-label="Close" data-bs-dismiss="alert"></button>
+          </div>
+          {% else %}
+          <div class="alert alert-warning alert-dismissable d-flex justify-content-between align-items-center fade show" role="alert">
+              <span>{{ message }}</span>
+             <button type="button" class="btn-close align-self-end" aria-label="Close" data-bs-dismiss="alert"></button>
+          </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% endwith %}
     {% block page_content %}
     {% endblock %}
 

@@ -1,6 +1,7 @@
 import socket, uuid, platform, psutil
 import netmiko
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, redirect, session, flash
+
 
 app = Flask(__name__)
 
@@ -13,11 +14,11 @@ def get_diveces_info():
             "mac_address":''.join(['{:02x}'.format((uuid.getnode()>>ele)&0xef) for ele in range(0,48,8)])
             }
 
-def send_device_command(ip):
+def configure_hostname(hostname):
     try:
         device = {
             'device_type': 'cisco_ios',
-            'ip': ip,
+            'ip': '10.10.10.1',
             'username': 'cisco',
             'password': 'Cisco123! ',
             'secret': 'class',
@@ -26,17 +27,41 @@ def send_device_command(ip):
         }
         connection = netmiko.ConnectHandler(**device)
         connection.enable()
-        commands = ['hostname Router1']
+        command = f'hostname {hostname}'
+        output = connection.send_config_set(command)
+        connection.disconnect()
+        if '% Invalid input' in output or '% Incomplete command' in output:
+            status = "Error de configuración"
+            return False
+        else:
+            return True
+    except Exception as e:
+        return str(e)
+
+
+def send_show_device_command(command):
+    try:
+        device = {
+            'device_type': 'cisco_ios',
+            'ip': '10.10.10.1',
+            'username': 'cisco',
+            'password': 'Cisco123! ',
+            'secret': 'class',
+            'port': 22,
+            'verbose': True
+        }
+        connection = netmiko.ConnectHandler(**device)
+        connection.enable()
+        #commands = ['exit',]
         #commands = 'hostname GNS3-Router'
-        output = connection.send_config_set(commands) #para una lista de comandos
-        #output = connection.send_command(commands)  # para un solo comando
+        #output = connection.send_config_set(comasdf) #para una lista de comandos
+        output = connection.send_command(command,use_genie=True)  # para un solo comando
         connection.disconnect()
         if '% Invalid input' in output or '% Incomplete command' in output:
             status = "Error de configuración"
             return status
         else:
-            status = "Comando ejecutado con éxito"
-            return status
+            return output
     except Exception as e:
         return str(e)
 
@@ -59,17 +84,25 @@ def dashboard():
 def devices():
     if request.method == 'GET':
         return render_template('devices.html')
-@app.route('/devices/configure', methods=['GET','POST'])
+@app.route('/devices/configure/<string:ip>', methods=['GET','POST'])
 def devices_configure():
     if request.method == 'GET':
-        ip = request.args.get('ip')
-        if ip:
-            output = send_device_command(ip)
-            print(f'Output from device {ip}: {output}')
-            return render_template('devices_configure.html', ip=ip, output=output)
-        else:
-            return render_template('devices_configure.html', error="No IP address provided")
+        output = send_show_device_command(command='show ip interface brief')
+        print('chivas',type(output))
+        return render_template('devices_configure.html', ip=ip, output=output)
 
+@app.route('/devices/configure/specific', methods=['POST', 'GET'])
+def specific_device_configure():
+    if request.method == 'POST':
+        ip = session.get('ip')
+        hostname = request.form.get('hostname')
+        if ip and hostname:
+            result = configure_hostname(ip, hostname)
+            if result is True:
+                flash('Hostname changed successfully!', 'success')
+            else:
+                flash('Error changing hostname', 'error')
+            return redirect('/devices')
 
 @app.route('/device-info', methods=['GET'])
 def device_info():

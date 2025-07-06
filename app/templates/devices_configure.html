@@ -6,14 +6,87 @@
     <h1>La ip del dispositivo que deseas configurar es: {{ip}}</h1>
 </div>
 <div class="container mt-5">
+    <div class="accordion accordion-flush justify-content-md-center" id="accordionFlushExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingOne">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                    Interfaces
+                </button>
+            </h2>
+            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Interface</th>
+                                <th scope="col">IP Address</th>
+                                <th scope="col">Method</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Protocol</th>
+                                <th scope="col" class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for d in output['interface'] %}
+                            <tr>
+                                <td scope="row">{{d}}</td>
+                                <td>{{output['interface'][d]['ip_address']}}</td>
+                                <td>{{output['interface'][d]['method']}}</td>
+                                <td>{{output['interface'][d]['status']}}</td>
+                                <td>{{output['interface'][d]['protocol']}}</td>
+                                <td class="d-flex justify-content-end">
+                                    <button class="btn btn-primary btn-sm" style="margin-right: 5px;"data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Edit</button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                    Hostname
+                </button>
+            </h2>
+            <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    <form method="POST" action="/devices/configure/specific">
+                        <div class="mb-3">
+                            <label for="hostname" class="form-label"></label>
+                            <input type="text" name="hostname" class="form-control" id="hostname" placeholder="Enter new hostname" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Change Hostname</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    {% if output %}
-    <h2>{{ output }}</h2>
-    {% endif %}
-
-    {% if error %}
-    <div class="alert alert-danger">{{ error }}</div>
-    {% endif %}
 </div>
+
+
+<!--- 
+<div class="row justify-content-md-center">
+    <div class="col-md-6">
+    <form method="POST" action="/devices/configure/specific">
+        <div class="mb-3">
+            <label for="ipadd" class="form-label">IP address</label>
+            <input type="text" name="ipadd" class="form-control" id="ipadd">
+        </div>
+        <div class="mb-3">
+            <label for="hostname"  class="form-label">Hostname</label>
+            <input type="text" name="hostname" class="form-control" id="hostname">
+        </div>
+        <div class="form-check form-switch">
+            <input class="form-check-input" name="chetbox" type="checkbox" id="chetbox">
+            <label class="form-check-label" for="chetbox">Open port 5</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    </div>
+</div>
+--->
 
 {% endblock %}
