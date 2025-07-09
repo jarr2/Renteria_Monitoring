@@ -1,9 +1,11 @@
-import socket, uuid, platform, psutil
+import socket, uuid, platform, psutil, secrets
 import netmiko
 from flask import Flask, jsonify, render_template, request, redirect, session, flash
 
 
 app = Flask(__name__)
+
+app.secret_key ='b59083ff4c4873d1d4ba99d50f0166e3'  # Set a secret key for session management
 
 def get_diveces_info():
     ip_address = socket.gethostbyname(socket.gethostname())
@@ -84,20 +86,19 @@ def dashboard():
 def devices():
     if request.method == 'GET':
         return render_template('devices.html')
-@app.route('/devices/configure/<string:ip>', methods=['GET','POST'])
+@app.route('/devices/configure', methods=['GET','POST'])
 def devices_configure():
     if request.method == 'GET':
         output = send_show_device_command(command='show ip interface brief')
         print('chivas',type(output))
-        return render_template('devices_configure.html', ip=ip, output=output)
+        return render_template('devices_configure.html', output=output)
 
 @app.route('/devices/configure/specific', methods=['POST', 'GET'])
 def specific_device_configure():
     if request.method == 'POST':
-        ip = session.get('ip')
         hostname = request.form.get('hostname')
-        if ip and hostname:
-            result = configure_hostname(ip, hostname)
+        if hostname:
+            result = configure_hostname(hostname)
             if result is True:
                 flash('Hostname changed successfully!', 'success')
             else:
