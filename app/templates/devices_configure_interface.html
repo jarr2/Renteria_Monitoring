@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block title %}My devices{% endblock %}
+
+{% block page_content %}
+
+<div class="container-mt5 justify-content-md-center">
+    <div class="text-center"style="margin-top:22px">
+            <h1>You are configurating interface: {{port}}</h1>
+    </div>
+    <div class="row justify-content-md-center"style="margin-top:22px">
+        <div class="col-md-6">
+        <form method="POST" action="/devices/configure/interface/apply">
+            <input type="hidden" name="port" value="{{ port }}">
+            <div class="mb-3">
+                <label for="deviceIP" class="form-label">New device IP</label>
+                <div class="input-group d-flex align-items-center">
+                    <input type="number" class="form-control text-center" maxlength="3" min="0" max="255" style="width:60px;" id="ip1" name="ip1" required>
+                    <span class="mx-1">.</span>
+                    <input type="number" class="form-control text-center" maxlength="3" min="0" max="255" style="width:60px;" id="ip2" name="ip2" required>
+                    <span class="mx-1">.</span>
+                    <input type="number" class="form-control text-center" maxlength="3" min="0" max="255" style="width:60px;" id="ip3" name="ip3" required>
+                    <span class="mx-1">.</span>
+                    <input type="number" class="form-control text-center" maxlength="3" min="0" max="255" style="width:60px;" id="ip4" name="ip4" required>
+                </div>
+                <div class="mb-3">
+                    <label for="netmask" class="form-label">Subnet mask</label>
+                    <select class="form-select" name="netmask" id="netmask" required>
+                        <option value="">Choose mask...</option>
+                        <option value="255.0.0.0">/8 — 255.0.0.0</option>
+                        <option value="255.255.0.0">/16 — 255.255.0.0</option>
+                        <option value="255.255.255.0">/24 — 255.255.255.0</option>
+                        <option value="255.255.255.128">/25 — 255.255.255.128</option>
+                        <option value="255.255.255.192">/26 — 255.255.255.192</option>
+                        <option value="255.255.255.224">/27 — 255.255.255.224</option>
+                        <option value="255.255.255.240">/28 — 255.255.255.240</option>
+                        <option value="255.255.255.248">/29 — 255.255.255.248</option>
+                        <option value="255.255.255.252">/30 — 255.255.255.252</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-check form-switch">
+                <input class="form-check-input" name="chetbox" type="checkbox" id="chetbox">
+                <label class="form-check-label" for="chetbox">Activate or deactivate interface</label>
+            </div>
+            <button type="submit" class="btn btn-primary" style="margin-top:15px">Submit</button>
+        </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelector("form").addEventListener("submit", function(event) {
+        const ip1 = parseInt(document.getElementById("ip1").value);
+        const ip2 = parseInt(document.getElementById("ip2").value);
+        const ip3 = parseInt(document.getElementById("ip3").value);
+        const ip4 = parseInt(document.getElementById("ip4").value);
+
+        function isValidPart(part) {
+            return !isNaN(part) && part >= 0 && part <= 255;
+        }
+
+        if (!isValidPart(ip1) || !isValidPart(ip2) || !isValidPart(ip3) || !isValidPart(ip4)) {
+            alert("Please enter a valid IP address between 0 and 255 in each field.");
+            event.preventDefault();
+        }
+    });
+</script>
+
+{% endblock %}

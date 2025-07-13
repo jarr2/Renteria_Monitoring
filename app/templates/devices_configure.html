@@ -2,7 +2,7 @@
 {% block title %}My devices{% endblock %}
 
 {% block page_content %}
-<div class="container mt-5">
+<div class="container mt-5 margin-top:20px" >
     <h1>La ip del dispositivo que deseas configurar es: {{ip}}</h1>
 </div>
 <div class="container mt-5">
@@ -27,15 +27,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for d in output['interface'] %}
+                            {% for d in output['interfaces']['interface'] %}
                             <tr>
                                 <td scope="row">{{d}}</td>
-                                <td>{{output['interface'][d]['ip_address']}}</td>
-                                <td>{{output['interface'][d]['method']}}</td>
-                                <td>{{output['interface'][d]['status']}}</td>
-                                <td>{{output['interface'][d]['protocol']}}</td>
+                                <td>{{output['interfaces']['interface'][d]['ip_address']}}</td>
+                                <td>{{output['interfaces']['interface'][d]['method']}}</td>
+                                <td>{{output['interfaces']['interface'][d]['status']}}</td>
+                                <td>{{output['interfaces']['interface'][d]['protocol']}}</td>
                                 <td class="d-flex justify-content-end">
-                                    <button class="btn btn-primary btn-sm" style="margin-right: 5px;"data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Edit</button>
+                                    <form action="/devices/configure/interface" method="POST" class="d-inline">
+                                        <input type="hidden" name="port" value="{{ d }}">
+                                        <button type="submit" class="btn btn-info">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                                                <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"></path>
+                                            </svg>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -52,9 +60,9 @@
             </h2>
             <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
                 <div class="accordion-body">
-                    <form method="POST" action="/devices/configure/specific">
+                    <form method="POST" action="/devices/configure/hostname">
                         <div class="mb-3">
-                            <label for="hostname" class="form-label"></label>
+                            <label for="hostname" class="form-label">Actual: {{output['hostname']}}</label>
                             <input type="text" name="hostname" class="form-control" id="hostname" placeholder="Enter new hostname" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Change Hostname</button>
@@ -63,7 +71,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 
